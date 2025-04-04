@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TS Wheels - Vehicle Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #e74c3c;
+            color: #34495e;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        header img {
+            width: 150px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-buttons button {
+            background: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .advertisement-banner {
+            background: #ef475d;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .home-images {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .home-images img {
+            width: 30%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .vehicle-selection {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .vehicle-card {
+            background: rgba(220, 206, 6, 0.806);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: box-shadow 0.4s ease;
+        }
+
+        .vehicle-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .vehicle-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+
+        .choose-option {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .choose-option button {
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            background: #2980b9;
+            color: white;
+            cursor: pointer;
+        }
+
+        .back-button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            color: #27ae60;
+            margin-top: 0.5rem;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: #0fcff1;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .vehicle-details {
+            text-align: left;
+            margin-top: 10px;
+            color: #0fa9f1;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-details p {
+            margin: 5px 0;
+        }
+
+        .trip-planner {
+            margin-top: 2rem;
+            background-color: #f39c12;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .trip-planner h3 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .trip-planner input,
+        .trip-planner button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .trip-planner input {
+            width: 48%;
+            display: inline-block;
+            margin-right: 4%;
+        }
+
+        .trip-planner button {
+            background-color: #2980b9;
+            color: white;
+            cursor: pointer;
+        }
+
+        .trip-planner button:hover {
+            background-color: #21618c;
+        }
+
+        .trip-planner-result {
+            margin-top: 20px;
+            background: #2ecc71;
+            padding: 15px;
+            color: white;
+            font-size: 1.1rem;
+            display: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="c:\Users\91782\Downloads\21c2a569-9833-4293-8dc6-63cfe77d0a55.jpeg" alt="TS Wheels Logo">
+            <div class="nav-buttons">
+                <button onclick="window.location.reload()">Home</button>
+                <button onclick="showLoginPage()">Login</button>
+                <button onclick="alert('About Us: TS Wheels - Your Trusted Vehicle Rental Service')">About Us</button>
+            </div>
+        </header>
+
+        <!-- Advertisement Banner -->
+        <div class="advertisement-banner">
+            <h3>Limited Time Offer! Rent a Car Today!</h3>
+            <p>Special discounts available for early bookings.</p>
+            <img src="https://via.placeholder.com/800x300?text=Special+Offer" alt="Advertisement Image">
+        </div>
+
+        <!-- Home Page Images -->
+        <div class="home-images">
+            <img src="https://via.placeholder.com/400x200?text=Explore+Our+Vehicles" alt="Explore Vehicles">
+            <img src="https://via.placeholder.com/400x200?text=Affordable+Rentals" alt="Affordable Rentals">
+            <img src="https://via.placeholder.com/400x200?text=Book+Your+Ride+Today" alt="Book Your Ride Today">
+        </div>
+
+        <!-- Vehicle Type Selection -->
+        <div class="vehicle-selection" id="vehicleSelection">
+            <h2>SELECT VEHICLE</h2>
+            <select id="vehicleType" onchange="loadVehicleCategories()">
+                <option value="TYPE">TYPES</option>
+                <option value="cars">Cars</option>
+                <option value="bikes">Bikes</option>
+            </select>
+        </div>
+
+        <!-- Vehicle Categories Grid -->
+        <div class="vehicle-grid" id="vehicleGrid"></div>
+
+        <!-- Trip Planner Form -->
+        <div class="trip-planner">
+            <h3>Trip Planner Calculator</h3>
+            <input type="number" id="distance" placeholder="Enter distance (km)" />
+            <input type="number" id="fuelEfficiency" placeholder="Enter vehicle mileage (km/l)" />
+            <!-- Fuel Type Dropdown -->
+            <select id="fuelType" onchange="updateFuelCost()">
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+            </select>
+            <input type="number" id="fuelCost" placeholder="Fuel cost (₹ per liter)" readonly />
+            <button onclick="calculateTripCost()">Calculate Cost</button>
+            <div class="trip-planner-result" id="tripPlannerResult">
+                Total Trip Cost: ₹<span id="tripCost"></span>
+            </div>
+        </div>
+
+        <!-- Vehicle Booking Options -->
+        <div class="choose-option" id="chooseOption" style="display: none;">
+            <h3>Choose an Option:</h3>
+            <button onclick="confirmChoice('Rent')">Rent</button>
+            <button onclick="confirmChoice('Details')">Details</button>
+        </div>
+
+        <!-- Back Button -->
+        <button class="back-button" id="backButton" onclick="goBack()">Back</button>
+    </div>
+
+    <script>
+        const categories = {
+            cars: ["SUV", "Sedan", "Hatchback", "Luxury", "Electric Car"],
+            bikes: ["Milege Bike", "Sport Bike", "Scooter", "Eectric Bike"]
+        };
+
+        const vehicleData = {
+            "SUV": [
+                { name: 'Tata Curvv', image: 'https://stimg.cardekho.com/images/carexteriorimages/630x420/Tata/Curvv/9578/1723033064164/front-left-side-47.jpg?imwidth=420&impolicy=resize', price: '₹5000/day', mileage: 12, fuel: 'Petrol', engine: '2.0L', seats: '5' },
+                { name: 'Mahindra XUV700', image: 'data:image/jpeg;base64,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', price: '₹5500/day', mileage: 10, fuel: 'Diesel', engine: '2.5L', seats: '5' }
+            ],
+            "Sedan": [
+                { name: 'Maruti Dzire', image: 'https://stimg.cardekho.com/images/carexteriorimages/630x420/Maruti/Dzire/11387/1731318279714/front-left-side-47.jpg?impolicy=resize&imwidth=360', price: '₹4000/day', mileage: 15, fuel: 'Petrol', engine: '1.6L', seats: '4' },
+                { name: 'Hyundai Verna', image: 'https://stimg.cardekho.com/images/carexteriorimages/630x420/Hyundai/Verna/8703/1736412929424/front-left-side-47.jpg?impolicy=resize&imwidth=360', price: '₹4500/day', mileage: 14, fuel: 'Diesel', engine: '1.8L', seats: '4' }
+            ],
+            "Hatchback": [
+                { name: 'Maruti Swift', image: 'https://imgd.aeplcdn.com/227x128/n/cw/ec/159099/swift-exterior-right-front-three-quarter-31.jpeg?isig=0&q=80', price: '₹5000/day', mileage: 12, fuel: 'Petrol', engine: '2.0L', seats: '5' },
+                { name: 'Hyundai i20', image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/150603/i20-exterior-right-front-three-quarter-7.jpeg?isig=0&q=80', price: '₹5500/day', mileage: 10, fuel: 'Diesel', engine: '2.5L', seats: '5' }
+            ],
+            "Luxury": [
+                { name: 'Land Rover Defender', image: 'https://imgd.aeplcdn.com/664x374/n/cw/ec/55215/defender-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80', price: '₹50000/day', mileage: 12, fuel: 'Petrol', engine: '2.0L', seats: '5' },
+                { name: 'BMW 3 Series LWB', image: 'https://imgd.aeplcdn.com/227x128/n/cw/ec/198567/3-series-lwb-exterior-right-front-three-quarter.jpeg?isig=0&q=80', price: '₹150000/day', mileage: 10, fuel: 'Diesel', engine: '2.5L', seats: '5' }
+            ],
+            "Electric Car": [
+                { name: 'Tata Nexon EV ', image: 'https://imgd.aeplcdn.com/227x128/n/cw/ec/149123/nexon-ev-exterior-right-front-three-quarter-78.jpeg?isig=0&q=80', price: '₹5000/day', mileage: 12, fuel: 'Petrol', engine: '2.0L', seats: '5' },
+                { name: 'Mahindra XEV 9e', image: 'https://imgd.aeplcdn.com/227x128/n/cw/ec/130595/xev-9e-exterior-right-front-three-quarter.jpeg?isig=0&q=80', price: '₹5500/day', mileage: 10, fuel: 'Diesel', engine: '2.5L', seats: '5' }
+            ],
+            "Milege Bike": [
+                { name: 'Honda SP125', image: 'data:image/jpeg;base64,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', price: '₹500/day', mileage: 52, fuel: 'Petrol', FuelTank: '13L', seats: '2' },
+                { name: 'TVS SPORT ', image: 'https://imgd.aeplcdn.com/664x374/n/bw/models/colors/tvs-select-model-black-red-1707468353702.png?q=80', price: '₹500/day', mileage: 70, fuel: 'Petrol', engine: '12.5L', seats: '2' }
+            ],
+            "Sport Bike": [
+                { name: 'SUZUKI GIXXER 150', image: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSHDEOioz_zBQBersYB7qsIgBAjt7mHCsq_h4Awng4E4lpHAGjQPs9-WGSUJ3DD2bbUSSvsZDkPysd3LfCcdc6fSoxDjteqyPdl3Z1wu-xWpCTEGEKdlUYr', price: '₹1000/day', mileage: 43, fuel: 'Petrol', engine: '10L', seats: '2' },
+                { name: 'Hero Xtream', image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTjhwgceNCHRnPrPvCbARISTGqeM0tb7L2PYK_n0v5GQk1X4iQj8qkSBmWVWrVzni_91I2z2EROwkjPHErzisQK55jWRcuPABvuTmC8nG9D-HczHGSMhH8D', price: '₹1000/day', mileage: 60, fuel: 'Petrol', engine: '13L', seats: '2' }
+            ],
+            "Scooter": [
+                { name: 'Activa 5g', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFWm-JHFWO6Vn-Xt86MAt7srxdX4RKTMD3CA&s', price: '₹650/day', mileage: 59, fuel: 'petrol', FuelTANK: '5.0L', seats: '2' },
+                { name: 'Jupiter 125', image: 'https://cdn.bikedekho.com/processedimages/tvs/jupiter/source/jupiter67c6a7c63f754.jpg', price: '₹600/day', mileage: 40, fuel: 'PETROL', FuelTank: '4.5L', seats: '2' }
+            ],
+            "Electric Bike": [
+                { name: 'Ather', image: 'https://cdn.bikedekho.com/processedimages/ather-energy/2025-450s/source/2025-450s677cb40877ef4.jpg', price: '₹1000/day', mileage: 120, fuel: 'ELECTRIC', seats: '2' },
+                { name: 'OLA S2', image: 'data:image/jpeg;base64,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', price: '₹1050/day', mileage: 100, fuel: 'ELECTRIC',  seats: '2' }
+            ],
+        };
+
+        const fuelCostData = {
+            "Petrol": 100,
+            "Diesel": 90,
+            "Electric": 10
+        };
+
+        let currentView = 'vehicleSelection';  
+
+        // Load Vehicle Categories based on selected type
+        function loadVehicleCategories() {
+            const vehicleType = document.getElementById('vehicleType').value;
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            const vehicleSelection = document.getElementById('vehicleSelection');
+            const backButton = document.getElementById('backButton');
+
+            vehicleGrid.innerHTML = ''; 
+            vehicleGrid.style.display = 'grid'; 
+            vehicleSelection.style.display = 'none';
+            backButton.style.display = 'block'; 
+
+            currentView = 'vehicleGrid';
+
+            categories[vehicleType].forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'vehicle-card';
+                card.innerHTML = `<h3>${category}</h3>`;
+                card.addEventListener('click', () => loadVehicles(category));
+                vehicleGrid.appendChild(card);
+            });
+        }
+
+        // Load Vehicles for selected category and show them immediately
+        function loadVehicles(category) {
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            const backButton = document.getElementById('backButton');
+            vehicleGrid.innerHTML = ''; 
+
+            vehicleData[category]?.forEach(vehicle => {
+                const card = document.createElement('div');
+                card.className = 'vehicle-card';
+                card.innerHTML = `
+                    <img src="${vehicle.image}" alt="${vehicle.name}">
+                    <h3>${vehicle.name}</h3>
+                    <p class="price">${vehicle.price}</p>
+                    <div class="vehicle-details">
+                        <p>Mileage: ${vehicle.mileage} km/l</p>
+                        <p>Fuel: ${vehicle.fuel}</p>
+                        <p>Engine: ${vehicle.engine}</p>
+                        <p>Seats: ${vehicle.seats}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => showBookingPage(vehicle));
+                vehicleGrid.appendChild(card);
+            });
+
+            currentView = 'vehicleDetails';
+        }
+
+        // Update fuel cost based on selected fuel type
+        function updateFuelCost() {
+            const fuelType = document.getElementById('fuelType').value;
+            const fuelCostInput = document.getElementById('fuelCost');
+            fuelCostInput.value = fuelCostData[fuelType] || '';
+        }
+
+        // Trip Cost Calculation
+        function calculateTripCost() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const fuelEfficiency = parseFloat(document.getElementById('fuelEfficiency').value);
+            const fuelCost = parseFloat(document.getElementById('fuelCost').value);
+            const tripCost = (distance / fuelEfficiency) * fuelCost;
+
+            document.getElementById('tripCost').innerText = tripCost.toFixed(2);
+            document.getElementById('tripPlannerResult').style.display = 'block';
+        }
+
+        function showBookingPage(vehicle) {
+            localStorage.setItem('selectedVehicle', JSON.stringify(vehicle));
+            window.location.href = 'booking.html';
+        }
+
+        function goBack() {
+            const vehicleSelection = document.getElementById('vehicleSelection');
+            const vehicleGrid = document.getElementById('vehicleGrid');
+            const backButton = document.getElementById('backButton');
+
+            if (currentView === 'vehicleGrid') {
+                vehicleSelection.style.display = 'block';
+                vehicleGrid.style.display = 'none';
+                backButton.style.display = 'none'; 
+                currentView = 'vehicleSelection';
+            } else if (currentView === 'vehicleDetails') {
+                loadVehicleCategories(); 
+                currentView = 'vehicleGrid';
+            }
+        }
+
+        function showLoginPage() {
+            window.open('login.html', '_blank');
+        }
+    </script>
+</body>
+</html>
